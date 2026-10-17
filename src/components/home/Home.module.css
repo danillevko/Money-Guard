@@ -1,0 +1,29 @@
+.home {
+    min-height: 100vh;
+    background: linear-gradient(120deg, #2c206b, #59217e);
+    color: white;
+    font-family: var(--font);
+}
+
+.header {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+    border-bottom: 1px solid #150f33;
+}
+.headerLogo{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.headerLogo img{
+    width: 23px;
+    height: 23px;
+}
+.headerLogo h2{
+    font-size: 18px;
+    font-weight: 400;
+}

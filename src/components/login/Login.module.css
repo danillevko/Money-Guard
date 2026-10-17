@@ -1,11 +1,12 @@
-body {
+.body {
     background-image: url("/Gradient 2.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-color: #101010;
 }
-.container{
+
+.container {
     min-height: 100vh;
     width: 100%;
     display: flex;
@@ -13,31 +14,46 @@ body {
     align-items: center;
     margin: 0 auto;
 }
-.loginCard{
+
+.loginCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
     width: 533px;
     height: 570px;
     border-radius: 12px;
     background: rgb(255, 255, 255, 0.07);
     backdrop-filter: blur(10px);
 }
-.logoWrapper{
-    margin-top: 80px;
+
+.logoWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 76px;
+    margin-bottom: 35px;
 }
-.logo{
+
+.logo {
     width: 36px;
     height: 36px;
     margin: 0;
+    display: block;
 }
-.logoTitle{
+
+.logoTitle {
     font-family: var(--font);
     font-weight: 400;
     font-size: 27px;
     margin: 0;
+    color: white;
+    text-align: center;
 }
+
 .inputGroup {
+    margin: 0 auto;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -56,4 +72,53 @@ body {
     outline: none;
     color: white;
     font-size: 18px;
+    font-family: var(--font);
+    font-weight: 400;
+}
+
+form {
+    align-items: center;
+}
+
+.loginBtn {
+    display: block;
+    width: 300px;
+    height: 50px;
+    border-radius: 20px;
+    margin: 0 auto;
+    border: none;
+    margin-top: 35px;
+    background: linear-gradient(90deg, #FFC727, #7000FF);
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+}
+
+.registerBtn {
+    display: block;
+    width: 300px;
+    height: 50px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    color: #623F8B;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: var(--font);
+    text-transform: uppercase;
+}
+
+.loginBtn:hover,
+.registerBtn:hover {
+    opacity: 0.9;
+}
+
+.loginBtn:active,
+.registerBtn:active {
+    scale: 0.9;
 }

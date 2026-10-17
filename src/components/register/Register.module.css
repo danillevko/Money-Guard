@@ -1,0 +1,113 @@
+.authPage {
+    background-color: #101010;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-image: url("/Gradient 2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.auth {
+    align-items: center;
+    text-align: center;
+    width: 533px;
+    height: 570px;
+    border-radius: 12px;
+    background: rgb(255, 255, 255, 0.07);
+    backdrop-filter: blur(10px);
+}
+
+.logoWrapper {
+    margin-top: 40px;
+    height: 76px;
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+    margin: 0;
+}
+
+.logoTitle {
+    font-family: var(--font);
+    font-weight: 400;
+    font-size: 27px;
+    margin: 0;
+    color: white;
+}
+
+.inputGroup {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 409px;
+    padding: 8px 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #aaa;
+    color: #aaa;
+}
+
+.inputGroup input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+    font-family: var(--font);
+    font-weight: 400;
+}
+
+form {
+    align-items: center;
+}
+
+.loginBtn {
+    display: block;
+    width: 300px;
+    height: 50px;
+    border-radius: 20px;
+    margin: 0 auto;
+    border: none;
+    margin-top: 35px;
+    background: linear-gradient(90deg, #FFC727, #7000FF);
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+}
+
+.registerBtn {
+    display: block;
+    width: 300px;
+    height: 50px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    color: #623F8B;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: var(--font);
+    text-transform: uppercase;
+}
+
+.loginBtn:hover,
+.registerBtn:hover {
+    opacity: 0.9;
+}
+
+.loginBtn:active,
+.registerBtn:active {
+    scale: 0.9;
+}

@@ -3,16 +3,19 @@ import Register from "../register/Register";
 import s from './Login.module.css';
 import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
+import Home from "../home/Home";
 function LoginModal() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showRegister, setShowRegister] = useState(false)
+    const [showRegister, setShowRegister] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
     const login = (e) => {
         e.preventDefault();
         const user = JSON.parse(localStorage.getItem('user'));
         if (user && user.email === email && user.password === password) {
+            setCurrentUser(user)
             setIsLoggedIn(true);
         }
     }
@@ -21,10 +24,14 @@ function LoginModal() {
             <Register onLogin={() => setShowRegister(false)} />
         )
     }
+    if(currentUser){
+        return(
+            <Home user={currentUser} onLogout={() => setCurrentUser(null)}/>
+        )
+    }
 
     return (
-        <body>
-
+        <div className={s.body}>
             <div className={s.container}>
                 <div className={s.loginCard}>
                     <div className={s.logoWrapper}>
@@ -45,7 +52,7 @@ function LoginModal() {
                     </form>
                 </div>
             </div>
-        </body>
+        </div>
     )
 }
 export default LoginModal
