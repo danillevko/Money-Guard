@@ -5,17 +5,19 @@ function Transactions({ transactions, onDelete }) {
         <div className={s.transactions}>
             <table>
                 <thead>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Category</th>
-                    <th>Comment</th>
-                    <th>Sum</th>
-                    <th></th>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Comment</th>
+                        <th>Sum</th>
+                        <th></th>
+                    </tr>
                 </thead>
 
                 <tbody>
                     {
-                        transactions.map((item, index) =>(
+                        transactions.map((item, index) => (
                             <tr key={index}>
                                 <td>{item.date}</td>
                                 <td>{item.type}</td>

@@ -4,12 +4,13 @@ import { GoPlus } from "react-icons/go";
 import Header from './Header'
 import Sidebar from "./Sidebar";
 import Transactions from "./Transactions";
+import AddTransaction from "./AddTransaction";
 function Home({ user, onLogout }) {
     const [transactions, setTransactions] = useState([]);
     const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         const saved = localStorage.getItem('transactions');
-        if(saved){
+        if (saved) {
             setTransactions(JSON.parse(saved));
         }
     }, []);
@@ -26,22 +27,27 @@ function Home({ user, onLogout }) {
     }
     let balance = 1000000;
     transactions.forEach((item) => {
-        if(item.type === 'Income'){
+        if (item.type === 'Income') {
             balance = balance + item.sum;
-        } else{
+        } else {
             balance = balance - item.sum;
         }
     })
-    return(
+    return (
         <div className={s.home}>
-            <Header user={user} onLogout={onLogout}/>
+            <Header user={user} onLogout={onLogout} />
             <div className={s.homeContent}>
-                <Sidebar balance={balance}/>
+                <Sidebar balance={balance} />
                 <main className={s.mainContent}>
-                    <Transactions transactions={transactions} onDelete={deleteTransaction}/>
+                    <Transactions transactions={transactions} onDelete={deleteTransaction} />
                     <button className={s.addBtn} onClick={() => setShowModal(true)}><GoPlus /></button>
                 </main>
             </div>
+            {
+                showModal && (
+                    <AddTransaction onClose={() => setShowModal(false)} onAdd={addTransaction} />
+                )
+            }
         </div>
     )
 }
