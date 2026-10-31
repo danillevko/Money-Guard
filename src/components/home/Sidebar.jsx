@@ -1,12 +1,12 @@
 import s from './Home.module.css';
 import { MdHome } from "react-icons/md";
 import { MdOutlineQueryStats } from "react-icons/md";
-function Sidebar({balance}){
-    return(
+function Sidebar({ balance, onNavigate }) {
+    return (
         <aside className={s.sidebar}>
             <nav className={s.navigation}>
-                <button><MdHome />Home</button>
-                <button><MdOutlineQueryStats />Statistics</button>
+                <button onClick={() => onNavigate("home")}><MdHome />Home</button>
+                <button onClick={() => onNavigate("stats")}><MdOutlineQueryStats />Statistics</button>
             </nav>
             <div className={s.balance}>
                 <p>your balance</p>
