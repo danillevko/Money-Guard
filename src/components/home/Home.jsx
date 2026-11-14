@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import s from './Home.module.css';
 import { GoPlus } from "react-icons/go";
@@ -15,6 +14,7 @@ function Home({ user, onLogout }) {
     const [showEdit, setShowEdit] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [page, setPage] = useState("home");
+    const [showLogout, setShowLogout] = useState(false);
 
     useEffect(() => {
         const saved = localStorage.getItem('transactions');
@@ -65,14 +65,27 @@ function Home({ user, onLogout }) {
 
     return (
         <div className={s.home}>
-            <Header user={user} onLogout={onLogout} />
+            <Header user={user} onLogout={() => setShowLogout(true)} />
             <div className={s.homeContent}>
                 <Sidebar balance={balance} onNavigate={setPage} />
                 <main className={s.mainContent}>
                     {page === "home" ? (
                         <>
-                            <Transactions transactions={transactions} onDelete={deleteTransaction} onEdit={(transaction) => { setSelectedTransaction(transaction); setShowEdit(true) }} />
-                            <button className={s.addBtn} onClick={() => setShowModal(true)}><GoPlus /></button>
+                            <Transactions
+                                transactions={transactions}
+                                onDelete={deleteTransaction}
+                                onEdit={(transaction) => {
+                                    setSelectedTransaction(transaction);
+                                    setShowEdit(true);
+                                }}
+                            />
+
+                            <button
+                                className={s.addBtn}
+                                onClick={() => setShowModal(true)}
+                            >
+                                <GoPlus />
+                            </button>
                         </>
                     ) : (
                         <Stats transactions={transactions} />
@@ -80,9 +93,42 @@ function Home({ user, onLogout }) {
                 </main>
             </div>
             {showModal && (
-                <AddTransaction onClose={() => setShowModal(false)} onAdd={addTransaction} />
+                <AddTransaction
+                    onClose={() => setShowModal(false)}
+                    onAdd={addTransaction}
+                />
             )}
-            <ETransaction isOpen={showEdit} onClose={() => { setShowEdit(false); setSelectedTransaction(null) }} onSave={handleEdit} transaction={selectedTransaction} />
+            <ETransaction
+                isOpen={showEdit}
+                onClose={() => {
+                    setShowEdit(false);
+                    setSelectedTransaction(null);
+                }}
+                onSave={handleEdit}
+                transaction={selectedTransaction}
+            />
+            {showLogout && (
+                <div className={s.logoutOverlay}>
+                    <div className={s.logoutModal}>
+                        <img src="/Money-Guard.png" alt="Money Guard" />
+                        <h2>Money Guard</h2>
+                        <p>Are you sure you want to log out?</p>
+                        <div className={s.logoutActions}>
+                            <button
+                                className={s.logoutConfirm}
+                                onClick={onLogout}
+                            >
+                                LOGOUT
+                            </button>
+                            <button
+                                className={s.logoutCancel}
+                                onClick={() => setShowLogout(false)}>
+                                CANCEL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
