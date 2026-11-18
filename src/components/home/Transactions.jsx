@@ -24,7 +24,7 @@ function Transactions({ transactions, onDelete, onEdit }) {
                             <td>{item.category}</td>
                             <td>{item.comment}</td>
                             <td>{item.sum}</td>
-                            <td>
+                            <td className={s.tdBtn}>
                                 <button className={s.editBtn} onClick={() => onEdit(item)}><MdEdit /></button>
                                 <button className={s.deleteBtn} onClick={() => onDelete(index)}>Delete</button>
                             </td>

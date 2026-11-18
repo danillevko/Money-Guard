@@ -79,7 +79,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 30px 20px 25px;
+    padding: 30px 0px 25px 0px;
 }
 
 .navigation button {
@@ -87,7 +87,7 @@
     align-items: center;
     gap: 15px;
     width: 100%;
-    padding: 8px 0;
+    padding: 10px 30px 10px 25px;
     border: none;
     background: none;
     color: white;
@@ -123,10 +123,17 @@
     font-weight: 700;
 }
 
+
 .currency {
     margin-top: 25px;
     width: 100%;
+    background: #4A56E21A;
+    background-image: url(./Vector9.svg), url(./Vector8.svg);
+    background-position: bottom, center 80%;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
+
 
 .currency table {
     width: 100%;
@@ -394,4 +401,32 @@
 .logoutCancel {
     color: #573b8c;
     background: white;
+}
+
+/* Tablet */
+
+@media(max-width: 1024px) {
+    .homeContent {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        gap: 25px;
+    }
+
+    .navigation {
+        width: 100%;
+    }
+
+    .balance {
+        border-radius: 8px;
+    }
+
+    .currency {
+        margin: 0;
+        border-radius: 18px;
+    }
 }

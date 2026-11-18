@@ -7,11 +7,11 @@ function Sidebar({ balance, onNavigate }) {
             <nav className={s.navigation}>
                 <button onClick={() => onNavigate("home")}><MdHome />Home</button>
                 <button onClick={() => onNavigate("stats")}><MdOutlineQueryStats />Statistics</button>
+                <div className={s.balance}>
+                    <p>your balance</p>
+                    <h2>$ {balance}</h2>
+                </div>
             </nav>
-            <div className={s.balance}>
-                <p>your balance</p>
-                <h2>$ {balance}</h2>
-            </div>
             <div className={s.currency}>
                 <table>
                     <thead>
