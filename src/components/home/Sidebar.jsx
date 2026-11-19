@@ -1,23 +1,22 @@
 import s from './Home.module.css';
-import { MdHome, MdOutlineQueryStats } from "react-icons/md";
+import { MdHome, MdOutlineQueryStats, MdAutoAwesome } from "react-icons/md";
 
 const money = (n) => Number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });
 
 function Sidebar({ balance, page, onNavigate }) {
+    const nav = (key) => (page === key ? s.navActive : "");
+
     return (
-        <aside className={s.sidebar}>
+        <aside className={page === "home" ? s.sidebar : `${s.sidebar} ${s.sidebarCompact}`}>
             <nav className={s.navigation}>
-                <button
-                    className={page === "home" ? s.navActive : ""}
-                    onClick={() => onNavigate("home")}
-                >
+                <button className={nav("home")} onClick={() => onNavigate("home")}>
                     <MdHome /><span>Home</span>
                 </button>
-                <button
-                    className={page === "stats" ? s.navActive : ""}
-                    onClick={() => onNavigate("stats")}
-                >
+                <button className={nav("stats")} onClick={() => onNavigate("stats")}>
                     <MdOutlineQueryStats /><span>Statistics</span>
+                </button>
+                <button className={nav("ai")} onClick={() => onNavigate("ai")}>
+                    <MdAutoAwesome /><span>AI Assistant</span>
                 </button>
             </nav>
 

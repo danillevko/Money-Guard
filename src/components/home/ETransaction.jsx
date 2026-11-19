@@ -2,6 +2,7 @@ import { useState } from "react";
 // Reuses the Add modal styles, so ETransaction.module.css can be deleted
 import s from "./AddTransaction.module.css";
 import CategorySelect from "../statistics/CategorySelect";
+import CategorySuggestion from "../ai/CategorySuggestion";
 
 function ETransaction({ isOpen, onClose, onSave, transaction }) {
     if (!isOpen || !transaction) {
@@ -91,6 +92,13 @@ function EditForm({ transaction, onClose, onSave }) {
                         placeholder="Comment"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
+                    />
+
+                    <CategorySuggestion
+                        comment={comment}
+                        type={type}
+                        category={category}
+                        onApply={setCategory}
                     />
 
                     <div className={s.buttons}>

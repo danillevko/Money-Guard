@@ -632,6 +632,36 @@
     }
 }
 
+/* AI chat page: less bottom padding, chat sizes itself */
+.mainChat {
+    padding-bottom: 35px;
+}
+
+@media (max-width: 1024px) {
+    .mainChat {
+        padding-bottom: 28px;
+    }
+}
+
+@media (max-width: 600px) {
+    .mainChat {
+        padding: 16px 16px calc(78px + env(safe-area-inset-bottom));
+    }
+
+    /* On Statistics / AI pages the balance + currency are not needed on phones;
+       the sidebar only hosts the fixed bottom tab bar */
+    .sidebarCompact {
+        padding: 0;
+        gap: 0;
+        border-bottom: none;
+    }
+
+    .sidebarCompact .balance,
+    .sidebarCompact .currency {
+        display: none;
+    }
+}
+
 @media (hover: none) {
     .addBtn:hover,
     .deleteBtn:hover {

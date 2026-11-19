@@ -7,8 +7,9 @@ import Transactions from "./Transactions";
 import AddTransaction from "./AddTransaction";
 import ETransaction from './ETransaction';
 
-// Recharts is heavy: only download it when the Statistics page is opened
+// Heavy pages are downloaded only when opened (Recharts lives inside Stats)
 const Stats = lazy(() => import("../statistics/Stats"));
+const AiAssistant = lazy(() => import("../ai/AiAssistant"));
 
 const START_BALANCE = 1000000;
 
@@ -53,36 +54,49 @@ function Home({ user, onLogout }) {
         START_BALANCE
     );
 
+    let content;
+    if (page === "home") {
+        content = (
+            <>
+                <Transactions
+                    transactions={transactions}
+                    onDelete={deleteTransaction}
+                    onEdit={(transaction) => {
+                        setSelectedTransaction(transaction);
+                        setShowEdit(true);
+                    }}
+                />
+
+                <button
+                    className={s.addBtn}
+                    onClick={() => setShowModal(true)}
+                    aria-label="Add transaction"
+                >
+                    <GoPlus />
+                </button>
+            </>
+        );
+    } else if (page === "stats") {
+        content = (
+            <Suspense fallback={<p className={s.loading}>Loading…</p>}>
+                <Stats transactions={transactions} />
+            </Suspense>
+        );
+    } else {
+        content = (
+            <Suspense fallback={<p className={s.loading}>Loading…</p>}>
+                <AiAssistant transactions={transactions} balance={balance} />
+            </Suspense>
+        );
+    }
+
     return (
         <div className={s.home}>
             <Header user={user} onLogout={() => setShowLogout(true)} />
             <div className={s.homeContent}>
                 <Sidebar balance={balance} page={page} onNavigate={setPage} />
-                <main className={s.mainContent}>
-                    {page === "home" ? (
-                        <>
-                            <Transactions
-                                transactions={transactions}
-                                onDelete={deleteTransaction}
-                                onEdit={(transaction) => {
-                                    setSelectedTransaction(transaction);
-                                    setShowEdit(true);
-                                }}
-                            />
-
-                            <button
-                                className={s.addBtn}
-                                onClick={() => setShowModal(true)}
-                                aria-label="Add transaction"
-                            >
-                                <GoPlus />
-                            </button>
-                        </>
-                    ) : (
-                        <Suspense fallback={<p className={s.loading}>Loading…</p>}>
-                            <Stats transactions={transactions} />
-                        </Suspense>
-                    )}
+                <main className={page === "ai" ? `${s.mainContent} ${s.mainChat}` : s.mainContent}>
+                    {content}
                 </main>
             </div>
 

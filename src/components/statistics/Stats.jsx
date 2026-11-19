@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import s from "./Stats.module.css";
 import { CATEGORIES } from "../categories";
+import AiInsights from "../ai/AiInsights";
 
 const MONTHS = [
     "January", "February", "March", "April", "May", "June",
@@ -53,6 +54,8 @@ function Statistics({ transactions }) {
     return (
         <section className={s.statistics}>
             <h2 className={s.title}>Statistics</h2>
+
+            <AiInsights transactions={transactions} year={year} month={month} />
 
             <div className={s.content}>
                 <div className={s.chartBox}>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import s from "./AddTransaction.module.css";
 import CategorySelect from "../statistics/CategorySelect";
+import CategorySuggestion from "../ai/CategorySuggestion";
 
 function AddTransaction({ onClose, onAdd }) {
     const [type, setType] = useState("Income");
@@ -93,6 +94,13 @@ function AddTransaction({ onClose, onAdd }) {
                         placeholder="Comment"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
+                    />
+
+                    <CategorySuggestion
+                        comment={comment}
+                        type={type}
+                        category={category}
+                        onApply={setCategory}
                     />
 
                     <div className={s.buttons}>
