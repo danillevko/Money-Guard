@@ -13,9 +13,10 @@
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     color: #fff;
-    padding: 8px 0;
+    padding: 10px 0;
     font-size: 14px;
     cursor: pointer;
+    text-align: left;
 }
 
 .placeholder {
@@ -28,8 +29,9 @@
     left: 0;
     right: 0;
     z-index: 10;
-    max-height: 220px;
+    max-height: min(220px, 40vh);
     overflow-y: auto;
+    overscroll-behavior: contain;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -39,9 +41,9 @@
 }
 
 .item {
-    padding: 10px 14px;
+    padding: 12px 14px;
     color: #fff;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
 }
 
@@ -51,4 +53,10 @@
 
 .itemActive {
     color: #ff868d;
+}
+
+@media (max-width: 480px) {
+    .head {
+        font-size: 16px;
+    }
 }

@@ -1,19 +1,28 @@
 .home {
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     background: linear-gradient(120deg, #211633, #342078 60%, #59217e);
     color: white;
     font-family: var(--font, Arial, sans-serif);
 }
 
+/* ---------- Header ---------- */
+
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
     height: 80px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
     padding: 0 40px;
-    background: rgba(44, 27, 91, 0.8);
+    background: rgba(44, 27, 91, 0.92);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     border-bottom: 1px solid #21163d;
 }
 
@@ -21,6 +30,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
 }
 
 .headerLogo img {
@@ -33,14 +43,23 @@
     font-size: 18px;
     font-weight: 500;
     margin: 0;
+    white-space: nowrap;
 }
 
 .headerUser {
     display: flex;
     align-items: center;
     gap: 15px;
+    min-width: 0;
     color: #bfb6d3;
     font-size: 14px;
+}
+
+.userName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 180px;
 }
 
 .headerUser button {
@@ -60,10 +79,13 @@
     color: white;
 }
 
+/* ---------- Layout ---------- */
+
 .homeContent {
     display: flex;
     width: 100%;
     min-height: calc(100vh - 80px);
+    min-height: calc(100dvh - 80px);
 }
 
 .sidebar {
@@ -71,6 +93,8 @@
     max-width: 390px;
     min-width: 280px;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
     border-right: 1px solid #776a91;
     background: linear-gradient(160deg, #35216c, #41238d);
 }
@@ -79,7 +103,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 30px 0px 25px 0px;
+    padding: 30px 0 25px;
 }
 
 .navigation button {
@@ -94,15 +118,25 @@
     font-size: 16px;
     text-align: left;
     cursor: pointer;
+    transition: color 0.2s;
 }
 
 .navigation button svg {
     font-size: 20px;
     color: #b9a7f0;
+    flex-shrink: 0;
 }
 
 .navigation button:hover {
     color: #c6b2ff;
+}
+
+.navActive {
+    font-weight: 600;
+}
+
+.navActive svg {
+    color: #ffb629 !important;
 }
 
 .balance {
@@ -121,8 +155,8 @@
     margin: 0;
     font-size: 26px;
     font-weight: 700;
+    overflow-wrap: anywhere;
 }
-
 
 .currency {
     margin-top: 25px;
@@ -133,7 +167,6 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
-
 
 .currency table {
     width: 100%;
@@ -166,9 +199,19 @@
             #412477 100%);
 }
 
+.loading,
+.empty {
+    margin: 40px 0;
+    text-align: center;
+    color: #bfb6d3;
+}
+
+/* ---------- Transactions table ---------- */
+
 .transactions {
     width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .transactions table {
@@ -214,7 +257,6 @@
     background: rgba(255, 255, 255, 0.04);
 }
 
-
 .editBtn {
     background: none;
     border: none;
@@ -237,6 +279,7 @@
     color: white;
     font-size: 12px;
     cursor: pointer;
+    transition: opacity 0.2s, scale 0.2s;
 }
 
 .deleteBtn:hover {
@@ -244,6 +287,7 @@
     scale: 1.06;
 }
 
+/* ---------- Floating add button ---------- */
 
 .addBtn {
     position: fixed;
@@ -262,67 +306,14 @@
     font-size: 30px;
     cursor: pointer;
     transition: transform 0.2s;
+    z-index: 40;
 }
 
 .addBtn:hover {
     transform: scale(1.1);
 }
 
-
-/* @media (max-width: 900px) {
-    .sidebar {
-        width: 260px;
-        min-width: 260px;
-    }
-
-    .mainContent {
-        padding: 25px 20px 80px;
-    }
-
-    .transactions table {
-        min-width: 600px;
-    }
-} */
-
-/* @media (max-width: 600px) {
-    .header {
-        padding: 0 15px;
-    }
-
-    .homeContent {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        max-width: none;
-        min-width: 0;
-        border-right: none;
-    }
-
-    .navigation {
-        flex-direction: row;
-        padding: 15px;
-    }
-
-    .balance {
-        padding: 15px 20px;
-    }
-
-    .currency {
-        margin-top: 10px;
-    }
-
-    .mainContent {
-        min-height: 450px;
-        padding: 20px 15px 80px;
-    }
-
-    .addBtn {
-        right: 20px;
-        bottom: 20px;
-    }
-} */
+/* ---------- Logout dialog ---------- */
 
 .logoutOverlay {
     position: fixed;
@@ -331,15 +322,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
     background: rgba(10, 5, 25, 0.55);
-    backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
 }
 
 .logoutModal {
     width: 100%;
     max-width: 420px;
-    padding: 35px 45px;
+    padding: 35px clamp(20px, 8vw, 45px);
     background: linear-gradient(135deg, #42366f, #38275e);
     border-radius: 5px;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
@@ -364,7 +356,7 @@
 }
 
 .logoutModal p {
-    font-size: 12px;
+    font-size: 13px;
     color: white;
     margin: 35px 0 30px;
 }
@@ -378,10 +370,10 @@
 
 .logoutActions button {
     width: 100%;
-    height: 39px;
+    height: 42px;
     border: none;
     border-radius: 12px;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 1px;
     cursor: pointer;
     transition: transform 0.2s, opacity 0.2s;
@@ -403,9 +395,13 @@
     background: white;
 }
 
-/* Tablet */
+/* ================= Tablet ================= */
 
-@media(max-width: 1024px) {
+@media (max-width: 1024px) {
+    .header {
+        padding: 0 24px;
+    }
+
     .homeContent {
         flex-direction: column;
     }
@@ -413,20 +409,233 @@
     .sidebar {
         width: 100%;
         max-width: 100%;
-        display: flex;
-        gap: 25px;
+        min-width: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px 24px;
+        border-right: none;
+        border-bottom: 1px solid #776a91;
     }
 
     .navigation {
-        width: 100%;
+        flex: 1 1 100%;
+        flex-direction: row;
+        gap: 8px;
+        padding: 0;
+    }
+
+    .navigation button {
+        justify-content: center;
+        width: auto;
+        flex: 1;
+        padding: 12px 16px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .navActive {
+        background: rgba(255, 182, 41, 0.15) !important;
     }
 
     .balance {
-        border-radius: 8px;
+        flex: 1 1 220px;
+        align-self: stretch;
+        border-radius: 12px;
+        padding: 16px 24px;
     }
 
     .currency {
+        flex: 1 1 280px;
         margin: 0;
         border-radius: 18px;
+        overflow: hidden;
+    }
+
+    .mainContent {
+        padding: 28px 24px 100px;
+    }
+
+    .addBtn {
+        right: 24px;
+        bottom: 24px;
+    }
+}
+
+/* ================= Phone ================= */
+
+@media (max-width: 600px) {
+    .header {
+        height: 64px;
+        padding: 0 16px;
+        padding-top: env(safe-area-inset-top);
+        box-sizing: content-box;
+    }
+
+    .headerLogo h2 {
+        font-size: 16px;
+    }
+
+    .headerUser {
+        gap: 10px;
+    }
+
+    .userName {
+        max-width: 90px;
+    }
+
+    .homeContent {
+        min-height: calc(100dvh - 64px);
+    }
+
+    .sidebar {
+        padding: 14px 16px;
+        gap: 12px;
+    }
+
+    /* Navigation becomes a bottom tab bar (thumb-friendly) */
+    .navigation {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 60;
+        flex: none;
+        gap: 0;
+        padding: 0 0 env(safe-area-inset-bottom);
+        background: rgba(44, 27, 91, 0.96);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid #5a4a8f;
+    }
+
+    .navigation button {
+        flex-direction: column;
+        gap: 2px;
+        padding: 10px 8px;
+        border-radius: 0;
+        background: none;
+        font-size: 12px;
+    }
+
+    .navActive {
+        background: none !important;
+        color: #ffb629;
+    }
+
+    .balance {
+        flex: 1 1 100%;
+        padding: 14px 20px;
+    }
+
+    .balance h2 {
+        font-size: 24px;
+    }
+
+    .currency {
+        flex: 1 1 100%;
+        border-radius: 14px;
+    }
+
+    .currency th {
+        padding: 10px 6px;
+        font-size: 13px;
+    }
+
+    .currency td {
+        padding: 8px 6px;
+        font-size: 13px;
+    }
+
+    .mainContent {
+        padding: 16px 16px calc(150px + env(safe-area-inset-bottom));
+    }
+
+    /* Round floating button sits above the tab bar */
+    .addBtn {
+        right: 16px;
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        width: 52px;
+        height: 52px;
+    }
+
+    /* Transactions table -> stacked cards */
+    .transactions {
+        overflow: visible;
+    }
+
+    .transactions table,
+    .transactions tbody,
+    .transactions tr,
+    .transactions td {
+        display: block;
+        width: 100%;
+    }
+
+    .transactions thead {
+        display: none;
+    }
+
+    .transactions tbody tr {
+        margin-bottom: 12px;
+        padding: 6px 14px;
+        border-radius: 12px;
+        background: rgba(101, 77, 158, 0.28);
+        border-left: 4px solid #ffb629;
+    }
+
+    .transactions tbody tr.rowExpense,
+    .rowExpense {
+        border-left-color: #ff6596;
+    }
+
+    .transactions td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 9px 0;
+        text-align: right;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        overflow-wrap: anywhere;
+    }
+
+    .transactions td::before {
+        content: attr(data-label);
+        flex-shrink: 0;
+        font-size: 12px;
+        font-weight: 600;
+        color: #a99abc;
+        text-align: left;
+    }
+
+    .transactions td:last-child {
+        justify-content: flex-end;
+        border-bottom: none;
+        padding-top: 12px;
+    }
+
+    .transactions td:last-child::before {
+        content: none;
+    }
+
+    .editBtn {
+        padding: 8px;
+        margin-right: 12px;
+        font-size: 20px;
+    }
+
+    .deleteBtn {
+        padding: 9px 18px;
+        font-size: 13px;
+    }
+}
+
+@media (hover: none) {
+    .addBtn:hover,
+    .deleteBtn:hover {
+        transform: none;
+        scale: 1;
     }
 }

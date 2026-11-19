@@ -1,27 +1,30 @@
-import { useState, useEffect } from "react";
-import s from "./ETransaction.module.css";
+import { useState } from "react";
+// Reuses the Add modal styles, so ETransaction.module.css can be deleted
+import s from "./AddTransaction.module.css";
 import CategorySelect from "../statistics/CategorySelect";
 
 function ETransaction({ isOpen, onClose, onSave, transaction }) {
-    const [sum, setSum] = useState('');
-    const [date, setDate] = useState('');
-    const [comment, setComment] = useState('');
-    const [type, setType] = useState("Income");
-    const [category, setCategory] = useState("");
-
-    useEffect(() => {
-        if (transaction) {
-            setSum(transaction.sum);
-            setDate(transaction.date);
-            setComment(transaction.comment || "");
-            setType(transaction.type);
-            setCategory(transaction.category || "");
-        }
-    }, [transaction]);
-
     if (!isOpen || !transaction) {
         return null;
     }
+
+    // key= resets the form state every time a different transaction is edited
+    return (
+        <EditForm
+            key={transaction.id}
+            transaction={transaction}
+            onClose={onClose}
+            onSave={onSave}
+        />
+    );
+}
+
+function EditForm({ transaction, onClose, onSave }) {
+    const [sum, setSum] = useState(transaction.sum);
+    const [date, setDate] = useState(transaction.date);
+    const [comment, setComment] = useState(transaction.comment || "");
+    const [type, setType] = useState(transaction.type);
+    const [category, setCategory] = useState(transaction.category || "");
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -31,42 +34,65 @@ function ETransaction({ isOpen, onClose, onSave, transaction }) {
             return;
         }
 
-        const updateTransaction = {
+        onSave({
             ...transaction,
-            type: type,
+            type,
             category: type === "Income" ? "Income" : category,
             sum: Number(sum),
-            date: date,
-            comment: comment
-        };
-        onSave(updateTransaction);
+            date,
+            comment
+        });
         onClose();
     }
 
     return (
         <div className={s.overlay}>
-            <div className={s.modal} role="dialog" aria-modal="true" aria-labelledby="addTransactionTitle">
-                <button className={s.close} type="button" onClick={onClose}>x</button>
-                <h2>Edit Transaction</h2>
+            <div className={s.modal} role="dialog" aria-modal="true" aria-labelledby="editTransactionTitle">
+                <button className={s.closeBtn} type="button" onClick={onClose} aria-label="Close">×</button>
+                <h2 id="editTransactionTitle">Edit Transaction</h2>
+
                 <div className={s.typeSwitch}>
                     <span className={type === "Income" ? s.active : ""}>Income</span>
-                    <button type="button" className={s.switch} onClick={() => setType(type === "Income" ? "Expense" : "Income")}>
+                    <button
+                        type="button"
+                        className={s.switch}
+                        aria-label="Switch between income and expense"
+                        onClick={() => setType(type === "Income" ? "Expense" : "Income")}
+                    >
                         <span className={type === "Expense" ? s.switchExpense : s.switchIncome}>
-                            {type === "Income" ? "+" : "-"}
+                            {type === "Income" ? "+" : "−"}
                         </span>
                     </button>
                     <span className={type === "Expense" ? s.active : ""}>Expense</span>
                 </div>
+
                 <form onSubmit={handleSubmit}>
                     {type === "Expense" && (
                         <CategorySelect value={category} onChange={setCategory} />
                     )}
 
                     <div className={s.inputRow}>
-                        <input type="number" placeholder="0.00" value={sum} min="0.1" step="0.1" onChange={(e) => setSum(e.target.value)} required />
+                        <input
+                            type="number"
+                            inputMode="decimal"
+                            placeholder="0.00"
+                            value={sum}
+                            min="0.1"
+                            step="0.1"
+                            onChange={(e) => setSum(e.target.value)}
+                            required
+                        />
                         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                     </div>
-                    <input className={s.comment} type="text" placeholder="Comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+
+                    <input
+                        className={s.comment}
+                        type="text"
+                        placeholder="Comment"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    />
+
                     <div className={s.buttons}>
                         <button type="submit" className={s.addBtn}>SAVE</button>
                         <button type="button" className={s.cancelBtn} onClick={onClose}>CANCEL</button>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import s from "./Stats.module.css";
 import { CATEGORIES } from "../categories";
 
@@ -31,26 +31,24 @@ function Statistics({ transactions }) {
         let sum = 0;
         monthTransactions.forEach((item) => {
             if (item.type === "Expense" && item.category === category.name) {
-                sum = sum + Number(item.sum);
+                sum += Number(item.sum);
             }
         });
-        return { ...category, sum: sum };
+        return { ...category, sum };
     });
 
-    let expenses = 0;
-    categories.forEach((category) => {
-        expenses = expenses + category.sum;
-    });
+    const expenses = categories.reduce((total, category) => total + category.sum, 0);
 
-    let income = 0;
-    monthTransactions.forEach((item) => {
-        if (item.type === "Income") {
-            income = income + Number(item.sum);
-        }
-    });
+    const income = monthTransactions.reduce(
+        (total, item) => (item.type === "Income" ? total + Number(item.sum) : total),
+        0
+    );
 
     const centerName = active >= 0 ? categories[active].name : "Total";
     const centerSum = active >= 0 ? categories[active].sum : expenses;
+
+    // tap again to deselect (touch screens have no hover)
+    const toggle = (index) => setActive((current) => (current === index ? -1 : index));
 
     return (
         <section className={s.statistics}>
@@ -58,39 +56,42 @@ function Statistics({ transactions }) {
 
             <div className={s.content}>
                 <div className={s.chartBox}>
-                    <PieChart width={300} height={300}>
-                        {expenses === 0 ? (
-                            // empty gray ring when there are no expenses
-                            <Pie
-                                data={[{ value: 1 }]}
-                                dataKey="value"
-                                innerRadius={95}
-                                outerRadius={130}
-                                stroke="none"
-                                isAnimationActive={false}
-                            >
-                                <Cell fill="rgba(255,255,255,0.15)" />
-                            </Pie>
-                        ) : (
-                            <Pie
-                                data={categories}
-                                dataKey="sum"
-                                nameKey="name"
-                                innerRadius={95}
-                                outerRadius={130}
-                                startAngle={90}
-                                endAngle={-270}
-                                paddingAngle={2}
-                                stroke="none"
-                                onMouseEnter={(data, index) => setActive(index)}
-                                onMouseLeave={() => setActive(-1)}
-                            >
-                                {categories.map((category) => (
-                                    <Cell key={category.name} fill={category.color} />
-                                ))}
-                            </Pie>
-                        )}
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            {expenses === 0 ? (
+                                // empty gray ring when there are no expenses
+                                <Pie
+                                    data={[{ value: 1 }]}
+                                    dataKey="value"
+                                    innerRadius="73%"
+                                    outerRadius="100%"
+                                    stroke="none"
+                                    isAnimationActive={false}
+                                >
+                                    <Cell fill="rgba(255,255,255,0.15)" />
+                                </Pie>
+                            ) : (
+                                <Pie
+                                    data={categories}
+                                    dataKey="sum"
+                                    nameKey="name"
+                                    innerRadius="73%"
+                                    outerRadius="100%"
+                                    startAngle={90}
+                                    endAngle={-270}
+                                    paddingAngle={2}
+                                    stroke="none"
+                                    onMouseEnter={(data, index) => setActive(index)}
+                                    onMouseLeave={() => setActive(-1)}
+                                    onClick={(data, index) => toggle(index)}
+                                >
+                                    {categories.map((category) => (
+                                        <Cell key={category.name} fill={category.color} />
+                                    ))}
+                                </Pie>
+                            )}
+                        </PieChart>
+                    </ResponsiveContainer>
 
                     <p className={s.chartTotal}>
                         {centerName}
@@ -100,13 +101,23 @@ function Statistics({ transactions }) {
 
                 <div className={s.right}>
                     <div className={s.selects}>
-                        <select className={s.select} value={month} onChange={(e) => setMonth(Number(e.target.value))}>
+                        <select
+                            className={s.select}
+                            aria-label="Month"
+                            value={month}
+                            onChange={(e) => setMonth(Number(e.target.value))}
+                        >
                             {MONTHS.map((name, index) => (
                                 <option key={name} value={index}>{name}</option>
                             ))}
                         </select>
 
-                        <select className={s.select} value={year} onChange={(e) => setYear(Number(e.target.value))}>
+                        <select
+                            className={s.select}
+                            aria-label="Year"
+                            value={year}
+                            onChange={(e) => setYear(Number(e.target.value))}
+                        >
                             {YEARS.map((number) => (
                                 <option key={number} value={number}>{number}</option>
                             ))}
@@ -125,6 +136,7 @@ function Statistics({ transactions }) {
                                 className={index === active ? `${s.row} ${s.rowActive}` : s.row}
                                 onMouseEnter={() => setActive(index)}
                                 onMouseLeave={() => setActive(-1)}
+                                onClick={() => toggle(index)}
                             >
                                 <span className={s.color} style={{ background: category.color }} />
                                 <span className={s.name}>{category.name}</span>

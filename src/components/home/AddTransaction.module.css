@@ -1,24 +1,26 @@
 .overlay {
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
     background: rgba(15, 10, 35, 0.45);
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 1000;
-    padding: 20px;
+    padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .modal {
     position: relative;
     width: 450px;
     max-width: 100%;
-    padding: 30px 54px;
+    margin: auto;
+    padding: 30px clamp(20px, 8vw, 54px);
     border-radius: 6px;
-    background: linear-gradient(135deg, #4b3984,#3c2b69);
+    background: linear-gradient(135deg, #4b3984, #3c2b69);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     color: white;
 }
@@ -30,10 +32,13 @@
     font-weight: 400;
 }
 
-.closeBtn {
+.closeBtn,
+.close {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 6px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
     border: none;
     background: none;
     color: white;
@@ -66,6 +71,7 @@
     border-radius: 20px;
     background: white;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .switch span {
@@ -132,8 +138,6 @@
     margin-bottom: 30px;
 }
 
-/* BUTTONS */
-
 .buttons {
     display: flex;
     flex-direction: column;
@@ -146,7 +150,7 @@
 .cancelBtn {
     width: 225px;
     max-width: 100%;
-    height: 38px;
+    height: 42px;
     border: none;
     border-radius: 15px;
     font-family: inherit;
@@ -156,9 +160,7 @@
 }
 
 .addBtn {
-    background: linear-gradient(90deg,
-            #ffb347,
-            #a73eb6);
+    background: linear-gradient(90deg, #ffb347, #a73eb6);
     color: white;
 }
 
@@ -170,4 +172,27 @@
 .addBtn:hover,
 .cancelBtn:hover {
     opacity: 0.85;
+}
+
+@media (max-width: 480px) {
+    /* 16px inputs: iOS Safari won't zoom the page on focus */
+    .modal input,
+    .modal input[type="date"] {
+        font-size: 16px;
+    }
+
+    .inputRow {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .inputRow input {
+        width: 100%;
+    }
+
+    .addBtn,
+    .cancelBtn {
+        width: 100%;
+        height: 46px;
+    }
 }

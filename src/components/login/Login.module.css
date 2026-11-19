@@ -8,11 +8,12 @@
 
 .container {
     min-height: 100vh;
+    min-height: 100dvh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
 }
 
 .loginCard {
@@ -20,10 +21,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 533px;
-    height: 570px;
+    width: 100%;
+    max-width: 533px;
+    min-height: 570px;
+    padding: 40px clamp(20px, 6vw, 62px);
     border-radius: 12px;
     background: rgb(255, 255, 255, 0.07);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -32,7 +36,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 76px;
     margin-bottom: 35px;
 }
 
@@ -46,22 +49,37 @@
 .logoTitle {
     font-family: var(--font);
     font-weight: 400;
-    font-size: 27px;
+    font-size: clamp(22px, 6vw, 27px);
     margin: 0;
     color: white;
     text-align: center;
 }
 
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .inputGroup {
-    margin: 0 auto;
     display: flex;
     align-items: center;
     gap: 15px;
-    width: 409px;
+    width: 100%;
+    max-width: 409px;
     padding: 8px 0;
     margin-bottom: 25px;
     border-bottom: 1px solid #aaa;
     color: #aaa;
+}
+
+.inputGroup:focus-within {
+    border-bottom-color: #ffc727;
+}
+
+.inputGroup svg {
+    flex-shrink: 0;
 }
 
 .inputGroup input {
@@ -76,41 +94,39 @@
     font-weight: 400;
 }
 
-form {
-    align-items: center;
+.error {
+    margin: -10px 0 0;
+    color: #ff868d;
+    font-size: 14px;
+    text-align: center;
+}
+
+.loginBtn,
+.registerBtn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    height: 50px;
+    border: none;
+    border-radius: 20px;
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s, scale 0.1s;
 }
 
 .loginBtn {
-    display: block;
-    width: 300px;
-    height: 50px;
-    border-radius: 20px;
-    margin: 0 auto;
-    border: none;
     margin-top: 35px;
     background: linear-gradient(90deg, #FFC727, #7000FF);
-    font-family: var(--font);
-    font-size: 18px;
-    font-weight: 400;
-    text-transform: uppercase;
     color: white;
-    cursor: pointer;
 }
 
 .registerBtn {
-    display: block;
-    width: 300px;
-    height: 50px;
-    margin: 0 auto;
     margin-top: 20px;
-    border: none;
-    border-radius: 20px;
     background-color: white;
     color: #623F8B;
-    font-size: 18px;
-    font-weight: 400;
-    font-family: var(--font);
-    text-transform: uppercase;
 }
 
 .loginBtn:hover,
@@ -120,5 +136,17 @@ form {
 
 .loginBtn:active,
 .registerBtn:active {
-    scale: 0.9;
+    scale: 0.96;
+}
+
+@media (max-width: 480px) {
+    .loginCard {
+        min-height: 0;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .logoWrapper {
+        margin-bottom: 28px;
+    }
 }

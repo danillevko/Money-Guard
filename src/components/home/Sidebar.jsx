@@ -1,17 +1,31 @@
 import s from './Home.module.css';
-import { MdHome } from "react-icons/md";
-import { MdOutlineQueryStats } from "react-icons/md";
-function Sidebar({ balance, onNavigate }) {
+import { MdHome, MdOutlineQueryStats } from "react-icons/md";
+
+const money = (n) => Number(n).toLocaleString('en-US', { maximumFractionDigits: 2 });
+
+function Sidebar({ balance, page, onNavigate }) {
     return (
         <aside className={s.sidebar}>
             <nav className={s.navigation}>
-                <button onClick={() => onNavigate("home")}><MdHome />Home</button>
-                <button onClick={() => onNavigate("stats")}><MdOutlineQueryStats />Statistics</button>
-                <div className={s.balance}>
-                    <p>your balance</p>
-                    <h2>$ {balance}</h2>
-                </div>
+                <button
+                    className={page === "home" ? s.navActive : ""}
+                    onClick={() => onNavigate("home")}
+                >
+                    <MdHome /><span>Home</span>
+                </button>
+                <button
+                    className={page === "stats" ? s.navActive : ""}
+                    onClick={() => onNavigate("stats")}
+                >
+                    <MdOutlineQueryStats /><span>Statistics</span>
+                </button>
             </nav>
+
+            <div className={s.balance}>
+                <p>your balance</p>
+                <h2>$ {money(balance)}</h2>
+            </div>
+
             <div className={s.currency}>
                 <table>
                     <thead>
@@ -21,7 +35,6 @@ function Sidebar({ balance, onNavigate }) {
                             <th>Sale</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <td>USD</td>
@@ -37,6 +50,7 @@ function Sidebar({ balance, onNavigate }) {
                 </table>
             </div>
         </aside>
-    )
+    );
 }
-export default Sidebar
+
+export default Sidebar;

@@ -4,7 +4,7 @@
 }
 
 .title {
-    font-size: 30px;
+    font-size: clamp(24px, 6vw, 30px);
     font-weight: 400;
     margin: 0 0 20px;
 }
@@ -15,10 +15,12 @@
     flex-wrap: wrap;
 }
 
+/* Fluid square: 300px on desktop, shrinks on small screens */
 .chartBox {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: min(300px, 100%);
+    aspect-ratio: 1;
+    flex-shrink: 0;
 }
 
 .chartTotal {
@@ -30,18 +32,20 @@
     text-align: center;
     font-size: 13px;
     pointer-events: none;
+    max-width: 60%;
 }
 
 .chartTotal span {
     display: block;
     margin-top: 4px;
-    font-size: 18px;
+    font-size: clamp(15px, 4.5vw, 18px);
     font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
 .right {
     flex: 1;
-    min-width: 300px;
+    min-width: min(300px, 100%);
 }
 
 .selects {
@@ -52,6 +56,7 @@
 
 .select {
     flex: 1;
+    min-width: 0;
     padding: 12px;
     color: #fff;
     background: rgba(255, 255, 255, 0.1);
@@ -86,7 +91,7 @@
     padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     font-size: 13px;
-    cursor: default;
+    cursor: pointer;
 }
 
 .rowActive {
@@ -98,10 +103,12 @@
     height: 20px;
     border-radius: 4px;
     margin-right: 14px;
+    flex-shrink: 0;
 }
 
 .name {
     flex: 1;
+    min-width: 0;
 }
 
 .totals {
@@ -124,8 +131,31 @@
 .income {
     color: #ffb627;
 }
-@media(max-width: 1024px) {
-    .statistics{
+
+@media (max-width: 1024px) {
+    .statistics {
         padding: 0;
+    }
+
+    .content {
+        gap: 28px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .selects {
+        gap: 12px;
+    }
+
+    .select {
+        font-size: 16px;
+    }
+
+    .tableHead,
+    .row,
+    .totals {
+        padding-left: 12px;
+        padding-right: 12px;
     }
 }
